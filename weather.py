@@ -34,26 +34,45 @@ def get_weather(city, api_key):
     else:
         return None  # If the city is not found or API error occurs
 
+# Function to fetch background image from Unsplash API
+def get_background_image(city, unsplash_api_key):
+    url = f"https://api.unsplash.com/photos/random?query={city}&client_id={unsplash_api_key}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        if data:
+            image_url = data[0]['urls']['regular']  # Get the regular-sized image
+            return image_url
+    return None  # If no image found, return None
+
 # Streamlit UI
 def main():
     # Set the page title and theme
     st.set_page_config(page_title="Weather App", page_icon=":sunny:", layout="centered")
     st.title("🌦️ Weather App 🌦️")
     
+    # API Keys (ensure you replace with your own keys)
+    weather_api_key = "a0b539b5b0a9bcec8e37933a569d13f6"  # Replace with your OpenWeatherMap API key
+    unsplash_api_key = "YOUR_UNSPLASH_API_KEY"  # Replace with your Unsplash API key
+    
     # Add some spacing for aesthetics
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # API Key (keep it secure in real-world applications)
-    api_key = "a0b539b5b0a9bcec8e37933a569d13f6"  # Replace with your OpenWeatherMap API key
-    
     # User input for city name
     city = st.text_input("Enter city name", "").capitalize()
-    
-    # Make the app more interactive by displaying a button
-    if st.button("Get Weather"):
-        if city:
+
+    # Fetch the background image based on city name
+    if city:
+        background_image_url = get_background_image(city, unsplash_api_key)
+        if background_image_url:
+            st.image(background_image_url, use_column_width=True)
+        else:
+            st.warning(f"No background image found for {city}, using default background.")
+        
+        # Make the app more interactive by displaying a button
+        if st.button("Get Weather"):
             # Get the weather data
-            weather_data = get_weather(city, api_key)
+            weather_data = get_weather(city, weather_api_key)
 
             if weather_data:
                 # Displaying weather data in a formatted layout
@@ -69,16 +88,6 @@ def main():
                 st.markdown(f"**Humidity:** {weather_data['humidity']}%")
                 st.markdown(f"**Weather Description:** {weather_data['weather_description'].capitalize()}")
                 st.markdown(f"**Wind Speed:** {weather_data['wind_speed']} m/s")
-                
-                # Add a fun, weather-themed background image based on the weather
-                if "clear" in weather_data['weather_description']:
-                    st.markdown('<style>body{background-color: #ffcc00;}</style>', unsafe_allow_html=True)
-                elif "rain" in weather_data['weather_description']:
-                    st.markdown('<style>body{background-color: #0077be;}</style>', unsafe_allow_html=True)
-                elif "cloud" in weather_data['weather_description']:
-                    st.markdown('<style>body{background-color: #c0c0c0;}</style>', unsafe_allow_html=True)
-                else:
-                    st.markdown('<style>body{background-color: #ff6347;}</style>', unsafe_allow_html=True)
                 
             else:
                 st.error("City not found or invalid API key!")
