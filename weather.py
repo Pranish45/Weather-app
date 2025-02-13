@@ -4,7 +4,7 @@ import requests
 def get_weather(city, api_key):
     # OpenWeatherMap API URL
     base_url = "http://api.openweathermap.org/data/2.5/weather?"
-    complete_url = f"{base_url}q={city}&appid={a0b539b5b0a9bcec8e37933a569d13f6}&units=metric"  # For Celsius
+    complete_url = f"{base_url}q={city}&appid={api_key}&units=metric"  # For Celsius
     
     # Sending the request to the OpenWeatherMap API
     response = requests.get(complete_url)
@@ -39,7 +39,7 @@ def get_weather(city, api_key):
 # Main function to get user input and display the weather data
 def main():
     # Replace with your OpenWeatherMap API key
-    api_key = "YOUR_API_KEY"  # Get your API key from https://openweathermap.org/api
+    api_key = "a0b539b5b0a9bcec8e37933a569d13f6"  # Get your API key from https://openweathermap.org/api
     city = input("Enter city name: ").strip()  # User enters the city name
     
     # Call the function to get the weather for the entered city
