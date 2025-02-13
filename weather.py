@@ -88,7 +88,7 @@ def main():
     # Add footer with your name or any additional details
     st.markdown("""
         <hr>
-        <p style="text-align: center; font-size: 16px;">Made with ❤️ by Pranish</p>
+        <p style="text-align: center; font-size: 16px;">Made by Pranish</p>
         """, unsafe_allow_html=True)
 
 # Run the app
