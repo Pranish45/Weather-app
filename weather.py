@@ -1,50 +1,54 @@
+import streamlit as st
 import requests
 
 # Function to get weather data from OpenWeatherMap API
 def get_weather(city, api_key):
-    # OpenWeatherMap API URL
     base_url = "http://api.openweathermap.org/data/2.5/weather?"
     complete_url = f"{base_url}q={city}&appid={api_key}&units=metric"  # For Celsius
     
-    # Sending the request to the OpenWeatherMap API
     response = requests.get(complete_url)
-    
-    # If the response is successful (status code 200)
+
     if response.status_code == 200:
-        data = response.json()  # Parse the response as JSON
-        
-        # Extracting data from the JSON response
+        data = response.json()
         main = data['main']
         weather = data['weather'][0]
         wind = data['wind']
         
-        # Extracting relevant details
         temp = main['temp']
         pressure = main['pressure']
         humidity = main['humidity']
         weather_description = weather['description']
         wind_speed = wind['speed']
         
-        # Displaying the weather details
-        print(f"\nWeather in {city.capitalize()}:\n")
-        print(f"Temperature: {temp}°C")
-        print(f"Pressure: {pressure} hPa")
-        print(f"Humidity: {humidity}%")
-        print(f"Weather Description: {weather_description.capitalize()}")
-        print(f"Wind Speed: {wind_speed} m/s")
+        return {
+            'temp': temp,
+            'pressure': pressure,
+            'humidity': humidity,
+            'weather_description': weather_description,
+            'wind_speed': wind_speed
+        }
     else:
-        # If the city is not found or there's an issue with the API call
-        print("City not found or invalid API key!")
+        return None  # If the city is not found or API error occurs
 
-# Main function to get user input and display the weather data
+# Streamlit UI
 def main():
-    # Replace with your OpenWeatherMap API key
-    api_key = "a0b539b5b0a9bcec8e37933a569d13f6"  # Get your API key from https://openweathermap.org/api
-    city = input("Enter city name: ").strip()  # User enters the city name
-    
-    # Call the function to get the weather for the entered city
-    get_weather(city, api_key)
+    st.title('Weather App')
 
-# Entry point of the script
+    api_key = "a0b539b5b0a9bcec8e37933a569d13f6"  # Replace with your OpenWeatherMap API key
+    city = st.text_input("Enter city name", "")
+
+    if city:
+        weather_data = get_weather(city, api_key)
+
+        if weather_data:
+            st.subheader(f"Weather in {city.capitalize()}:")
+            st.write(f"Temperature: {weather_data['temp']}°C")
+            st.write(f"Pressure: {weather_data['pressure']} hPa")
+            st.write(f"Humidity: {weather_data['humidity']}%")
+            st.write(f"Weather Description: {weather_data['weather_description'].capitalize()}")
+            st.write(f"Wind Speed: {weather_data['wind_speed']} m/s")
+        else:
+            st.error("City not found or invalid API key!")
+
 if __name__ == "__main__":
     main()
