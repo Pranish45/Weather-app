@@ -14,3 +14,4 @@ Initially, the project focused on providing basic weather information like tempe
 • OpenWeatherMap API for weather data.
 • Unsplash API for fetching city-based background images.
 • Requests for making API calls and handling responses.
+a0b539b5b0a9bcec8e37933a569d13f6
