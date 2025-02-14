@@ -63,7 +63,7 @@ def main():
     
     # API Keys (ensure you replace with your own keys)
     weather_api_key = "a0b539b5b0a9bcec8e37933a569d13f6"  # Replace with your OpenWeatherMap API key
-    unsplash_api_key = "YOUR_UNSPLASH_API_KEY"  # Replace with your Unsplash API key
+    unsplash_api_key = "YRux8h5eNPiVRTMfGZpKnq6sJBSntri5RAVpH87ZLQ0"  # Replace with your Unsplash API key
     
     # Add some spacing for aesthetics
     st.markdown("<br>", unsafe_allow_html=True)
