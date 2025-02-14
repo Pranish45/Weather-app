@@ -71,13 +71,12 @@ def main():
             with col1:
                 st.markdown(f"**Temperature:** {weather_data['temp']}°C")
                 st.markdown(f"**Pressure:** {weather_data['pressure']} hPa")
+                st.markdown(f"**Sunrise:** {weather_data['sunrise']}")
             with col2:
                 st.markdown(f"**Humidity:** {weather_data['humidity']}%")
                 st.markdown(f"**Wind Speed:** {weather_data['wind_speed']} m/s")
+                st.markdown(f"**Sunset:** {weather_data['sunset']}")
             
-            # Sunrise and Sunset times
-            st.markdown(f"**Sunrise:** {weather_data['sunrise']}")
-            st.markdown(f"**Sunset:** {weather_data['sunset']}")
         else:
             st.error("Could not fetch weather data for the given city. Please try again.")
 
